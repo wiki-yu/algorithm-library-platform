@@ -1,0 +1,20 @@
+export default {
+  home: 'Home',
+  login: 'Login',
+  action_localization: 'Motion Detection',
+  update: 'Update',
+  update_table_page: 'Update .CSV',
+  update_paste_page: 'Paste Table Data',
+  multilevel: 'multilevel',
+  directive_page: 'Directive',
+  level_1: 'Level-1',
+  level_2: 'Level-2',
+  level_2_1: 'Level-2-1',
+  level_2_3: 'Level-2-3',
+  level_2_2: 'Level-2-2',
+  level_2_2_1: 'Level-2-2-1',
+  level_2_2_2: 'Level-2-2-2',
+  excel: 'Excel',
+  'upload-excel': 'Upload Excel',
+  'export-excel': 'Export Excel'
+}

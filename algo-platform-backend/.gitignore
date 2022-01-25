@@ -1,0 +1,23 @@
+.DS_Store
+node_modules/
+dist/
+env/
+Data/
+app-aibuilder-stream/trained_models/
+app-aibuilder-stream/node_modules/
+app-aibuilder-video/trained_models/
+app-aibuilder-video/node_modules/
+app-yolo-stream/Data/Model_Weights/
+app-yolo-stream/node_modules/
+app-yolo-video/Data/Model_Weights/
+app-yolo-video/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

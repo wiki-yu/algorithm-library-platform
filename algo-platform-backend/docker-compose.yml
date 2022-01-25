@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  app-auth:
+    build: .
+    ports:
+      - 1001:3000
+    command: node ./auth.js
+  app-upload:
+    build: .
+    ports:
+      - 1002:3000
+    command: node ./upload-files.js
