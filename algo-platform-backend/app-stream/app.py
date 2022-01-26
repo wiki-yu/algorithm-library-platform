@@ -37,10 +37,13 @@ def gen(camera):
     while True:
         frame = camera.get_frame()
         # Perform inference
-        frame = yolov5.predict(frame)
-        # Ref: https://news.machinelearning.sg/posts/object_detection_with_yolov5/
-        frame.render()
-        frame = cv2.imencode('.jpg', frame.imgs[0])[1].tobytes()
+        # frame = yolov5.predict(frame)
+        # # Ref: https://news.machinelearning.sg/posts/object_detection_with_yolov5/
+        # frame.render()
+        # frame = cv2.imencode('.jpg', frame.imgs[0])[1].tobytes()
+
+        
+        frame = cv2.imencode('.jpg', frame)[1].tobytes()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 

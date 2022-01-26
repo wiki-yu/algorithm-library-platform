@@ -5,8 +5,8 @@ export default {
   update: 'Update',
   update_table_page: 'Update .CSV',
   update_paste_page: 'Paste Table Data',
-  multilevel: 'multilevel',
-  directive_page: 'Directive',
+  multilevel: 'AI Functions',
+  directive_page: 'AI Function2',
   level_1: 'Level-1',
   level_2: 'Level-2',
   level_2_1: 'Level-2-1',
@@ -14,7 +14,7 @@ export default {
   level_2_2: 'Level-2-2',
   level_2_2_1: 'Level-2-2-1',
   level_2_2_2: 'Level-2-2-2',
-  excel: 'Excel',
+  excel: 'AI Function1',
   'upload-excel': 'Upload Excel',
   'export-excel': 'Export Excel'
 }
