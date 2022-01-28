@@ -13,6 +13,7 @@ from camera_opencv import Camera
 import pandas as pd
 from yolov5 import YOLOv5, detect
 from yolov5.utils.torch_utils import select_device
+import time
 
 
 global indexAddCounter
@@ -260,10 +261,18 @@ def frame_to_time(frame, video_fps):
     
 def gen(camera):
     """Video streaming generator function."""
-    input_video_path = 'clean_tray.mp4'
     model_path = './trained_models'
     min_len = 3.05 #lenght in seconds of the smallest blue box (shortest task)
     # out_df = predict(input_video_path, model_path, min_len)
+    classes_id_path = os.path.join(model_path, "classes.txt")
+    classfile = open(classes_id_path, "r")
+    class_names = [line[:-1] for line in classfile.readlines()]
+    dense_net_model_path = os.path.join(model_path, "denseXgB_model_myLayer.h5")
+    xgb_model_path = os.path.join(model_path, "recognition_xgboost_prev_frames.joblib")
+    intermediate_layer_model = load_model(dense_net_model_path)
+    xgbmodel = load(xgb_model_path)    
+    cnt = 0
+    start_time = time.time()
 
     while True:
         frame = camera.get_frame()
@@ -273,11 +282,54 @@ def gen(camera):
         # frame.render()
         # frame = cv2.imencode('.jpg', frame.imgs[0])[1].tobytes()
 
-        res = predict(frame, model_path, min_len)
-        print("################################# results: ", res)
+        # res = predict(frame, model_path, min_len)
+
+        # model_algorithm = AlcibarAlgorithmPredictor(
+        #     frame = frame,
+        #     model_path = model_path
+        # )
+            
+        # predResults = model_algorithm.predict()
+        # print("################################# results: ", res)
+        # Load Models  
+
+        # Initialize variables for the model
+        hist_count = 7  # take into account the previous 7 frames
+        data_temporal = (
+            np.zeros(hist_count * 1024).astype(int).tolist()
+        )  # Start the rowlist
+        data_temporal = np.array([data_temporal])
+
+        # Start processing the video
+        # cnt = 0
+        # while vid.isOpened():
+            # return_value, frame = vid.read()
+            # if not return_value:
+            #     break
+        image = cv2.resize(frame, (128, 128))
+        image = img_to_array(image)
+        data = []
+        data.append(image)
+        data = np.array(data, dtype="float32") / 255.0
+
+        # opencv images are BGR, translate to RGB
+        intermediate_test_output = intermediate_layer_model.predict(data)
+        data_temporal = data_temporal[0].tolist()
+        data_temporal = data_temporal[len(intermediate_test_output[0]) :]
+        data_temporal.extend(intermediate_test_output[0])
+        data_temporal = np.array([data_temporal])
+        ypredNum = xgbmodel.predict(data_temporal)
+        print("########################## ", ypredNum)
+        
+
         frame = cv2.imencode('.jpg', frame)[1].tobytes()
+        cnt += 1
+        if cnt > 1000:
+            print("--- %s seconds ---" % (time.time() - start_time))
+            break
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            
 
 
 @app.route('/streaming')
