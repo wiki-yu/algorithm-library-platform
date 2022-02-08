@@ -15,6 +15,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# model file
+*.hdf5
+
+# video file
+*.mp4
+
 # Editor directories and files
 .idea
 *.suo

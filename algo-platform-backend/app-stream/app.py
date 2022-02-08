@@ -28,7 +28,7 @@ device = '' # "0" or "cpu"
 device = select_device(device)
 
 # Init YOLOv5 model
-yolov5 = YOLOv5("./models/yolov5s.pt", device=device)
+# yolov5 = YOLOv5("./models/yolov5s.pt", device=device)
 
 
 @app.after_request
