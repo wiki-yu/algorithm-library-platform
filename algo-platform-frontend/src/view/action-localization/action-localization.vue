@@ -54,6 +54,6 @@ export default {
   margin-top: 15px;
 }
 .title-description {
-  justify-content: center;
+  justify-content: center
 }
 </style>

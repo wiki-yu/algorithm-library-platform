@@ -149,7 +149,7 @@ export default [
         path: 'directive_page',
         name: 'directive_page',
         meta: {
-          icon: 'ios-navigate',
+          icon: 'ios-browsers-outline',
           title: '指令'
         },
         component: () => import('@/view/directive/directive.vue')

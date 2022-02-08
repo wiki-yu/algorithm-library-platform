@@ -8,6 +8,7 @@ from flask import Flask, Response, request, g
 from flask_cors import CORS
 from camera_opencv import Camera
 import time
+import os
 
 from collections import deque
 
@@ -45,7 +46,7 @@ def preprocess_image(img, size):
 def gen(camera):
     """Video streaming generator function."""
     class_names =  ['away', 'clean_tray', 'count_pills', 'drawer', 'scan_papers_computer']
-    model = load_model("./C3D_tf_vgg_test_ines_3.hdf5")
+    model = load_model("./models/C3D_tf_vgg_test_ines_3.hdf5")
     frame_index = 0
     size = 224
     Q = deque(maxlen=128)
@@ -64,7 +65,7 @@ def gen(camera):
         current_time = time.time()
         fps = frame_index / (current_time - start_time) 
         txt = "Class: " + pred_cls + ' ' + "FPS: " + "{:.2f}".format(fps)
-        cv2.putText(frame, txt, (0, 100), font, 1, (255, 0, 0), 1)  # text,coordinate,font,size of text,color,thickness of font
+        cv2.putText(frame, txt, (0, 100), font, .5, (255, 255, 255), 1)  # text,coor  # text,coordinate,font,size of text,color,thickness of font
         frame = cv2.imencode('.jpg', frame)[1].tobytes()
 
         yield (b'--frame\r\n'
