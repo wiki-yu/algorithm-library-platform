@@ -17,8 +17,8 @@ class Camera(BaseCamera):
     # @staticmethod
     def frames():
         camera = cv2.VideoCapture(Camera.video_source)
-        camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1024)
-        camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 768)
+        camera.set(3, 720)
+        camera.set(4, 540)
         Camera.video_size =  (
                     int(camera.get(cv2.CAP_PROP_FRAME_WIDTH)),
                     int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))

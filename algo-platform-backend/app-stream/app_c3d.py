@@ -120,10 +120,6 @@ def c3d(video_path, model_path):
     end_time = time.time()
     print(f'total_time: {end_time - start_time:0.3f} sec')
     vid.release()
-
-
-
-
     
 def gen(camera):
     """Video streaming generator function."""
@@ -144,27 +140,35 @@ def gen(camera):
     data_batch = []
     pred_results = []
     prob_results = []
+    cnt = 0
 
     while True:
         frame = camera.get_frame()
         image = cv2.resize(frame, (112, 112))
         image = image/255
         image = (image - mean) / std
-
+        print("*** image shape: ", image.shape)
         if count_temporal < temporal_length:
+            print("count_temporal: ", count_temporal)
             if count_temporal == 0:
                 data_temporal = np.array([image])
             else:
                 data_temporal = np.append(data_temporal, [image], axis=0)
+            count_temporal += 1
             continue
 
         if count_temporal >= temporal_length:
             data_temporal[:-1] = data_temporal[1:]
             data_temporal[-1] = image
-        
-        pred_idxs = model.predict(x=data_batch)
+            count_temporal += 1
+        print("*** data_temporal shape: ", data_temporal.shape)
+        data_temporal = np.expand_dims(data_temporal, axis=0)
+        print("#### data_temporal shape: ", data_temporal.shape)
+        pred_idxs = model.predict(x=data_temporal)
         pred_idxs = np.argmax(pred_idxs, axis=1)
         print(pred_idxs)
+        cnt += 1
+        print("cnt: ", cnt)
         frame = cv2.imencode('.jpg', frame)[1].tobytes()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')

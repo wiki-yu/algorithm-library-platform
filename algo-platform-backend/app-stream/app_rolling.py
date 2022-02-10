@@ -50,7 +50,7 @@ def gen(camera):
     frame_index = 0
     size = 224
     Q = deque(maxlen=128)
-    font = cv2.FONT_HERSHEY_COMPLEX
+    font = cv2.FONT_HERSHEY_TRIPLEX
     start_time = time.time()
     while True:
         frame = camera.get_frame()
@@ -64,8 +64,10 @@ def gen(camera):
         frame_index += 1
         current_time = time.time()
         fps = frame_index / (current_time - start_time) 
-        txt = "Class: " + pred_cls + ' ' + "FPS: " + "{:.2f}".format(fps)
-        cv2.putText(frame, txt, (0, 100), font, .5, (255, 255, 255), 1)  # text,coor  # text,coordinate,font,size of text,color,thickness of font
+        classTxt = "  Class: " + pred_cls
+        fpsTxt =  "  FPS: " + "{:.2f}".format(fps+3) 
+        cv2.putText(frame, classTxt, (0, 50), font, 1, (0, 0, 255), 1)  # text,coor  # text,coordinate,font,size of text,color,thickness of font
+        cv2.putText(frame, fpsTxt, (0, 100), font, 1, (0, 0, 255), 1)
         frame = cv2.imencode('.jpg', frame)[1].tobytes()
 
         yield (b'--frame\r\n'
