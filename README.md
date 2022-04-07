@@ -14,7 +14,7 @@ It is a real-time action localization demo including FE and BE
 ### Clone the project
 ```
 # clone the project
-git clone https://gitlab.com/ds-ai-team/action-localization-realtime-demo.git
+git clone https://github.com/wiki-yu/realtime-action-localization-flask.git
 ```
 
 ## Backend set up
